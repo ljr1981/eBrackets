@@ -119,18 +119,8 @@ feature {NONE} -- Implementation: Basic Operations
 			l_cmd: STRING_32
 			l_dir: DIRECTORY
 		do
-			across browser_paths as ic_paths loop
-				create l_dir.make_open_read (ic_paths.item)
-				if l_dir.exists then
-					l_cmd := l_dir.path.out
-					l_cmd.append_character ('\')
-					l_cmd.append_string (browser_exe)
-					l_cmd.append_string (local_host)
-					l_cmd.append_string (a_directory.path.out)
-					l_cmd.append_string ("%" --new-window")
-					execution_environment.launch (l_cmd)
-				end
-			end
+			l_cmd := "cmd /c start " + a_directory.path.out
+			execution_environment.launch (l_cmd)
 		end
 
 feature -- Assigners
@@ -177,37 +167,5 @@ feature {NONE} -- Implementation: Constants
 		once
 			create Result
 		end
-
-feature {NONE} -- Generic OS Browser
-
-	browser_exe: STRING
-			-- File name of the default `browser_exe'.
-		deferred
-		end
-
-	browser_paths: ARRAYED_LIST [STRING]
-			-- Full `browser_paths' leading to a `browser_exe'.
-		once
-			create Result.make (2)
-			Result.force ("C:\Users\lrix\AppData\Local\Google\Chrome\Application")
-			Result.force ("C:\Program Files (x86)\Google\Chrome\Application")
-		ensure
-			at_least_one: across Result as ic_result some (create {DIRECTORY}.make_open_read (ic_result.item)).exists end
-		end
-
-	local_host: STRING
-			-- `local_host' specification.
-		deferred
-		end
-
-feature {NONE} -- Windows Chrome
-
-	chrome_exe: STRING = "chrome.exe"
-
-	windows_local_host: STRING = " %"file://localhost/"
-
-feature {NONE} -- Implementation: Type Anchors
-
-
 
 end

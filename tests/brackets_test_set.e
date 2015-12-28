@@ -130,17 +130,17 @@ Hello World!
 <div class="wrapper">
 	<div class="ribbon-wrapper-green">
 		<div class="ribbon-green">
-			NEWS
+			NEW!!!
 		</div>
 	</div>
 </div>​
 <style>
 .wrapper {
   margin: 50px auto;
-  width: 280px;
-  height: 370px;
-  background: white;
-  border-radius: 10px;
+  width: 800px;
+  height: 600px;
+  background: skyblue;
+  border-radius: 20px;
   -webkit-box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
   -moz-box-shadow:    0px 0px 8px rgba(0,0,0,0.3);
   box-shadow:         0px 0px 8px rgba(0,0,0,0.3);
@@ -263,20 +263,6 @@ Hello World!
   </section>
 </section>
 ]"
-
-feature {NONE} -- Implementation
-
-	browser_exe: STRING
-			-- <Precursor>
-		do
-			Result := chrome_exe
-		end
-
-	local_host: STRING
-			-- <Precursor>
-		do
-			Result := windows_local_host
-		end
 
 end
 
