@@ -1,8 +1,7 @@
 ﻿note
 	description: "[
 		Tests of a "Brackets"-like test system.
-	]"
-	EIS: "src=http://brackets.io/"
+		]"
 	author: "Larry Rix"
 	date: "$Date: $"
 	revision: "$Revision: $"

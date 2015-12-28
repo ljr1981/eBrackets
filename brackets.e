@@ -7,7 +7,49 @@ note
 		from {EQA_TEST_SET}. Doing so will add facilities for taking segments or
 		whole pages of HTML, CSS, and JS to display them in Chrome or other favorite
 		browser.
+		
+		Standard steps:
+		---------------
+		(1) Create a new *_TEST_SET, placing {BRACKETS} in the inheritance.
+		(2) Create a new test which generates some snippet of HTML/CSS/JS.
+		(3) Pass the snippet to one of several features which will place the
+			snippet in an appropriate "harness".
+		(4) Pass the harnessed snippet to the `launch_in_browser' feature, which
+			will load the specified browser, and then the generated HTML harness
+			file will be given to it for rendering.
+		(5) Make changes to your code as-needed.
+		(6) Compile and re-run the created test(s) to re-render in the browser.
+		
+		Repeat steps (5) and (6) as often as required until the rendering and
+		behavior of the code in the browser is Correct.
+
+		(ref: EIS below)
+
+		The Brackets products offers two very useful services:
+
+		(1) Faster feedback cycle to see changes in HTML/CSS/JS -> Browser.
+		(2) Simpler management of HTML references in CSS and JS.
+
+		This library facilitates the first use of the Brackets product. The second
+		facility is handled by Eiffel and any library which will properly link
+		each CSS and JS DOM reference to its appropriate HTML element. This library
+		ought to also consolidate at least CSS in such a way that the CSS delivered
+		to the browser is the smallest specification possible (for speed and latency
+		purposes).
+		
+		This second notion is more or less represented in products like Sass (a style
+		sheet language). See the EIS link below for WikiPedia article on Sass. The
+		primary take-away from the link is that Sass brings "Object Oriented" to CSS
+		and CSS-3. While this is a nice thought, the question immediately arises: Why?
+		We already have OO languages (e.g. Eiffel). Why not build a class library
+		which allows CSS/CSS3 to be compiled, properly processed, and managed? Thus,
+		The second notion of the Brackets product is handled by development of such
+		libraries, which will not only aid in the management of CSS, but in compiling
+		the resulting CSS down to the bare minimum required to make delivery to the
+		client browser as fast as possible.
 		]"
+	EIS: "src=http://brackets.io/"
+	EIS: "src=https://en.wikipedia.org/wiki/Sass_(stylesheet_language)"
 	example_calls: "[
 		Using the `harness_page' to enclose "Hello World!":
 		---------------------------------------------------
@@ -20,8 +62,6 @@ note
 	ideas: "[
 		(1) HASH_TABLE of all browsers/settings
 		(2) Make "test" selectable as to which browsers the resulting HTML/CSS/JS is sent to
-		(3) Classes for each notion: HTML/Content/CSS/JS
-		(4) Various ways to harness and present the content (beyond what is already there)
 		]"
 	author: "Larry Rix"
 	date: "$Date: $"
