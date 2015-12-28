@@ -75,8 +75,22 @@ feature {NONE} -- Implementation: Basic Operations
 
 	launch_in_browser (a_directory: DIRECTORY)
 			-- launch `a_directory' file snippet of HTML/CSS/JS in a `browser_exe'.
+		local
+			l_cmd: STRING_32
+			l_dir: DIRECTORY
 		do
-			l_env.launch (browser_path + browser_exe + local_host + a_directory.path.out + "%" --new-window")
+			across browser_paths as ic_paths loop
+				create l_dir.make_open_read (ic_paths.item)
+				if l_dir.exists then
+					l_cmd := l_dir.path.out
+					l_cmd.append_character ('\')
+					l_cmd.append_string (browser_exe)
+					l_cmd.append_string (local_host)
+					l_cmd.append_string (a_directory.path.out)
+					l_cmd.append_string ("%" --new-window")
+					execution_environment.launch (l_cmd)
+				end
+			end
 		end
 
 feature -- Assigners
@@ -118,7 +132,7 @@ feature {NONE} -- Implementation: Constants
 </html>
 ]"
 
-	l_env: EXECUTION_ENVIRONMENT
+	execution_environment: EXECUTION_ENVIRONMENT
 			-- Execution environment for Current.
 		once
 			create Result
@@ -131,9 +145,14 @@ feature {NONE} -- Generic OS Browser
 		deferred
 		end
 
-	browser_path: STRING
-			-- Full path to `browser_exe'.
-		deferred
+	browser_paths: ARRAYED_LIST [STRING]
+			-- Full `browser_paths' leading to a `browser_exe'.
+		once
+			create Result.make (2)
+			Result.force ("C:\Users\lrix\AppData\Local\Google\Chrome\Application")
+			Result.force ("C:\Program Files (x86)\Google\Chrome\Application")
+		ensure
+			at_least_one: across Result as ic_result some (create {DIRECTORY}.make_open_read (ic_result.item)).exists end
 		end
 
 	local_host: STRING
@@ -145,8 +164,10 @@ feature {NONE} -- Windows Chrome
 
 	chrome_exe: STRING = "chrome.exe"
 
-	windows_chrome_path: STRING = "C:\Program Files (x86)\Google\Chrome\Application\"
-
 	windows_local_host: STRING = " %"file://localhost/"
+
+feature {NONE} -- Implementation: Type Anchors
+
+
 
 end

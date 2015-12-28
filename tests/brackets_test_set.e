@@ -273,12 +273,6 @@ feature {NONE} -- Implementation
 			Result := chrome_exe
 		end
 
-	browser_path: STRING
-			-- <Precursor>
-		do
-			Result := windows_chrome_path
-		end
-
 	local_host: STRING
 			-- <Precursor>
 		do
