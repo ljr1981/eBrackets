@@ -131,16 +131,16 @@ Hello World!
 <div class="wrapper">
 	<div class="ribbon-wrapper-green">
 		<div class="ribbon-green">
-			NEW!
+			NEWS
 		</div>
 	</div>
 </div>​
 <style>
 .wrapper {
   margin: 50px auto;
-  width: 400px;
-  height: 300px;
-  background: skyblue;
+  width: 280px;
+  height: 370px;
+  background: white;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
   -moz-box-shadow:    0px 0px 8px rgba(0,0,0,0.3);
