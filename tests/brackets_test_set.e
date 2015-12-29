@@ -53,9 +53,16 @@ feature -- Test routines
 			-- Test of `flex_products'.
 		note
 			EIS: "src=https://drafts.csswg.org/css-flexbox/#overview"
+		local
+			l_html: STRING_32
+			l_path: STRING_32
 		do
 			set_harness_path_and_file ("C:/temp/flex_products.html")
-			launch_in_browser (harnessed_file (flex_products))
+			l_path := execution_environment.current_working_path.absolute_path.out
+			l_html := flex_products.twin
+			l_html.replace_substring_all ("<<COMPUTER_IMAGE>>", l_path + "\tests\images\computer.jpg")
+			l_html.replace_substring_all ("<<PRINTER_IMAGE>>", l_path + "\tests\images\printer.png")
+			launch_in_browser (harnessed_file (l_html))
 		end
 
 feature {NONE} -- Implementation: Snippets
@@ -244,7 +251,7 @@ Hello World!
       <li>Keyboard
       <li>Mouse
     </ul>
-    <img src="C:\Users\Larry_2\Documents\Eiffel User Files\projects\hello_dot_com\images/computer.jpg"
+    <img src="<<COMPUTER_IMAGE>>"
          alt="You get: a white computer with matching peripherals.">
     <button>BUY NOW</button>
   </section>
@@ -257,7 +264,7 @@ Hello World!
       <li>Ink
       <li>Cable
     </ul>
-    <img src="C:\Users\Larry_2\Documents\Eiffel User Files\projects\hello_dot_com\images/printer.png"
+    <img src="<<PRINTER_IMAGE>>"
          alt="You get: a white printer with printer stuff.">
     <button>BUY NOW</button>
   </section>
