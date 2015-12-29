@@ -12,7 +12,10 @@ inherit
 
 feature -- Access
 
+	default_harness_path_and_file: STRING = "C:\temp\harness_file.html"
+			-- <Precursor>
+
 	start_command: STRING_32 = "cmd /c start "
-			-- `start_command' used at command-line of {OPERATING_SYSTEM} to start designated handler for file-type X.
+			-- <Precursor>
 
 end

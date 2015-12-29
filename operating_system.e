@@ -24,6 +24,11 @@ deferred class
 
 feature -- Access
 
+	default_harness_path_and_file: STRING
+			-- `default_harness_path_and_file'.
+		deferred
+		end
+
 	start_command: STRING_32
 			-- `start_command' used at command-line of {OPERATING_SYSTEM} to start designated handler for file-type X.
 		deferred

@@ -148,8 +148,6 @@ feature {NONE} -- Implementation: Constants
 			create Result.make_empty
 		end
 
-	default_harness_path_and_file: STRING = "C:\temp\harness_file.html"
-
 	harness_page: STRING_32 = "[
 <!DOCTYPE html>
 <html lang="en-US">
@@ -163,6 +161,11 @@ feature {NONE} -- Implementation: Constants
 			-- Execution environment for Current.
 		once
 			create Result
+		end
+
+	default_harness_path_and_file: STRING
+		once
+			Result := (create {G}).default_harness_path_and_file
 		end
 
 	start_command: STRING_32
