@@ -11,7 +11,7 @@ class
 	BRACKETS_TEST_SET
 
 inherit
-	BRACKETS
+	BRACKETS [WINDOWS_OPERATING_SYSTEM]
 
 feature -- Test routines
 
@@ -19,7 +19,7 @@ feature -- Test routines
 			-- Test of `no_graphics'.
 		do
 			set_harness_path_and_file ("C:/temp/hello_world.html")
-			launch_in_browser (harnessed_file (hello_world))
+			render_in_browser (harnessed_file (hello_world))
 		end
 
 	basic_microformatted_hcard_test
@@ -28,7 +28,7 @@ feature -- Test routines
 			EIS: "src=https://css-tricks.com/snippets/html/basic-microformatted-hcard/"
 		do
 			set_harness_path_and_file ("C:/temp/basic_microformatted_hcard.html")
-			launch_in_browser (harnessed_file (basic_microformatted_hcard))
+			render_in_browser (harnessed_file (basic_microformatted_hcard))
 		end
 
 	left_right_halves_layout_test
@@ -37,7 +37,7 @@ feature -- Test routines
 			EIS: "src=https://css-tricks.com/snippets/html/left-right-halves-layout/"
 		do
 			set_harness_path_and_file ("C:/temp/left_right_halves_layout.html")
-			launch_in_browser (raw_file (left_right_halves_layout))
+			render_in_browser (raw_file (left_right_halves_layout))
 		end
 
 	corner_ribbon_test
@@ -46,7 +46,7 @@ feature -- Test routines
 			EIS: "src=https://css-tricks.com/snippets/css/corner-ribbon/"
 		do
 			set_harness_path_and_file ("C:/temp/corner_ribbon.html")
-			launch_in_browser (raw_file (corner_ribbon))
+			render_in_browser (raw_file (corner_ribbon))
 		end
 
 	flex_products_test
@@ -62,7 +62,7 @@ feature -- Test routines
 			l_html := flex_products.twin
 			l_html.replace_substring_all ("<<COMPUTER_IMAGE>>", l_path + "\tests\images\computer.jpg")
 			l_html.replace_substring_all ("<<PRINTER_IMAGE>>", l_path + "\tests\images\printer.png")
-			launch_in_browser (harnessed_file (l_html))
+			render_in_browser (harnessed_file (l_html))
 		end
 
 feature {NONE} -- Implementation: Snippets

@@ -14,7 +14,7 @@ note
 		(2) Create a new test which generates some snippet of HTML/CSS/JS.
 		(3) Pass the snippet to one of several features which will place the
 			snippet in an appropriate "harness".
-		(4) Pass the harnessed snippet to the `launch_in_browser' feature, which
+		(4) Pass the harnessed snippet to the `render_in_browser' feature, which
 			will load the specified browser, and then the generated HTML harness
 			file will be given to it for rendering.
 		(5) Make changes to your code as-needed.
@@ -68,7 +68,7 @@ note
 	revision: "$Revision: $"
 
 deferred class
-	BRACKETS
+	BRACKETS [G -> OPERATING_SYSTEM create default_create end]
 
 inherit
 	EQA_TEST_SET
@@ -85,7 +85,7 @@ inherit
 feature {NONE} -- Implementation: Basic Operations
 
 	harness (a_snippet: STRING_32): STRING_32
-			-- Put `a_snippet' in `harness'.
+			-- Place `a_snippet' in `harness' of `harness_page'.
 		do
 			Result := harness_page.twin
 			Result.replace_substring_all ("<<SNIPPET>>", a_snippet)
@@ -98,6 +98,7 @@ feature {NONE} -- Implementation: Basic Operations
 		end
 
 	raw_file (a_snippet: STRING_32): DIRECTORY
+			-- Place `a_snippet' into a raw file using either `default_harness_path_and_file' or `harness_path_and_file'.
 		local
 			l_file: RAW_FILE
 			l_path_and_file: STRING_32
@@ -113,14 +114,10 @@ feature {NONE} -- Implementation: Basic Operations
 			create Result.make_with_name (l_path_and_file)
 		end
 
-	launch_in_browser (a_directory: DIRECTORY)
-			-- launch `a_directory' file snippet of HTML/CSS/JS in a `browser_exe'.
-		local
-			l_cmd: STRING_32
-			l_dir: DIRECTORY
+	render_in_browser (a_file: DIRECTORY)
+			-- Render `a_file' harnessed HTML/CSS/JS file snippet in a `browser_exe'.
 		do
-			l_cmd := "cmd /c start " + a_directory.path.out
-			execution_environment.launch (l_cmd)
+			execution_environment.launch (start_command + a_file.path.out)
 		end
 
 feature -- Assigners
@@ -166,6 +163,12 @@ feature {NONE} -- Implementation: Constants
 			-- Execution environment for Current.
 		once
 			create Result
+		end
+
+	start_command: STRING_32
+			-- Constant representing specific windows-based start command.
+		once
+			Result := (create {G}).start_command
 		end
 
 end
