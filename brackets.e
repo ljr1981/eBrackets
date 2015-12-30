@@ -115,7 +115,7 @@ feature {NONE} -- Implementation: Basic Operations
 		end
 
 	render_in_browser (a_file: DIRECTORY)
-			-- Render `a_file' harnessed HTML/CSS/JS file snippet in a `browser_exe'.
+			-- Render `a_file' harnessed HTML/CSS/JS file snippet using the common `start_command'.
 		do
 			execution_environment.launch (start_command + a_file.path.out)
 		end
