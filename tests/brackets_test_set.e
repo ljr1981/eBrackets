@@ -13,7 +13,11 @@ class
 inherit
 	BRACKETS [WINDOWS_OPERATING_SYSTEM]
 
-feature -- Test routines
+feature -- Tests
+
+	
+
+feature -- Bracketed Tests
 
 	hello_world_test
 			-- Test of `no_graphics'.

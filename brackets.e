@@ -82,13 +82,19 @@ inherit
 			default_create as unused_default_create
 		end
 
-feature {NONE} -- Implementation: Basic Operations
+feature -- Implementation: Basic Operations
 
 	harness (a_snippet: STRING_32): STRING_32
 			-- Place `a_snippet' in `harness' of `harness_page'.
+		require
+			has_content: not a_snippet.is_empty
 		do
 			Result := harness_page.twin
-			Result.replace_substring_all ("<<SNIPPET>>", a_snippet)
+			Result.replace_substring_all (snippet_replacement_tag, a_snippet)
+		ensure
+			no_snippet_tag: not Result.has_substring (snippet_replacement_tag)
+			has_top: Result.has_substring (Harness_top_string)
+			has_bottom: Result.has_substring (Harness_bottom_string)
 		end
 
 	harnessed_file (a_snippet: STRING_32): DIRECTORY
@@ -108,11 +114,24 @@ feature {NONE} -- Implementation: Basic Operations
 			else
 				l_path_and_file := harness_path_and_file.twin
 			end
-			create l_file.make_open_write (l_path_and_file)
-			l_file.put_string (a_snippet)
-			l_file.close
+			create last_harness_file.make_open_write (l_path_and_file)
+			attached_last_harness_file.put_string (a_snippet)
+			attached_last_harness_file.close
 			create Result.make_with_name (l_path_and_file)
+		ensure
+			correct_default: attached attached_last_harness_file.path.out as al_path and then
+				( (harness_path_and_file.is_empty implies al_path.same_string (default_harness_path_and_file)) or
+					(not harness_path_and_file.is_empty implies al_path.same_string (harness_path_and_file)) )
 		end
+
+	attached_last_harness_file: attached like last_harness_file
+			-- Attached version of `last_harness_file'.
+		do
+			check attached last_harness_file as al_file then Result := al_file end
+		end
+
+	last_harness_file: detachable RAW_FILE
+			-- `last_harness_file' created.
 
 	render_in_browser (a_file: DIRECTORY)
 			-- Render `a_file' harnessed HTML/CSS/JS file snippet using the common `start_command'.
@@ -126,6 +145,8 @@ feature -- Assigners
 			-- Reset (`wipe_out') `harness_path_and_file'.
 		do
 			harness_path_and_file.wipe_out
+		ensure
+			empty: harness_path_and_file.is_empty
 		end
 
 	set_harness_path_and_file (a_path_and_file: like harness_path_and_file)
@@ -142,20 +163,29 @@ feature -- Assigners
 
 feature {NONE} -- Implementation: Constants
 
+	snippet_replacement_tag: STRING_32 = "<<SNIPPET>>"
+			-- String "tag" representing `a_snippet' in other strings.
+
 	harness_path_and_file: STRING assign set_harness_path_and_file
 			-- `harness_path_and_file' assigned by `set_harness_path_and_file'.
 		attribute
 			create Result.make_empty
+		ensure
+			empty: Result.is_empty
 		end
 
-	harness_page: STRING_32 = "[
-<!DOCTYPE html>
-<html lang="en-US">
-<body>
-<<SNIPPET>>
-</body>
-</html>
-]"
+	harness_page: STRING_32
+			-- Simple HTML page for harnessing `a_snippet'.
+		once
+			Result := harness_top_string + Snippet_replacement_tag + harness_bottom_string
+		ensure
+			has_top: Result.has_substring (Harness_top_string)
+			has_snippet: Result.has_substring (Snippet_replacement_tag)
+			has_bottom: Result.has_substring (Harness_bottom_string)
+		end
+
+	Harness_top_string: STRING_32 = "<!DOCTYPE html>%N<html lang=%"en-US%">%N<body>%N"
+	Harness_bottom_string: STRING_32 = "%N</body>%N</html>"
 
 	execution_environment: EXECUTION_ENVIRONMENT
 			-- Execution environment for Current.
