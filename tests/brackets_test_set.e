@@ -15,7 +15,25 @@ inherit
 
 feature -- Tests
 
-	
+	harness_test
+			-- Test for harness
+		note
+			testing:  "covers/{BRACKETS}.harness"
+		local
+			l_result: like harness
+		do
+			l_result := harness ("hello world")
+			assert_strings_equal ("hello_world_harness", harness_hello_world_result, l_result)
+		end
+
+	harness_hello_world_result: STRING_32 = "[
+<!DOCTYPE html>
+<html lang="en-US">
+<body>
+hello world
+</body>
+</html>
+]"
 
 feature -- Bracketed Tests
 
@@ -223,7 +241,7 @@ Hello World!
   flex-flow: column;    /* Lay out item’s contents vertically  */
   background: hsl(60,100%,90%);
   border: medium inset hsl(120,70%,40%);
-  border-radius: 10px;
+  border-radius: 30px;
   padding: 5px;
   font-size: 11pt;
 }
